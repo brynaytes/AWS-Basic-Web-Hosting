@@ -1,0 +1,10 @@
+{
+  "Resources": {
+    "SiteS3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "mine-sweeper-site-assets"
+      }
+    }
+  }
+}

@@ -1,11 +1,5 @@
 {
   "Resources": {
-    "SiteS3Bucket": {
-      "Type": "AWS::S3::Bucket",
-      "Properties": {
-        "BucketName": "Site-Assets"
-      }
-    },
     "Uploader": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
