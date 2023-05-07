@@ -5,6 +5,21 @@
       "Properties": {
         "BucketName": "mine-sweeper-site-assets"
       }
+    },
+    "cloudfrontdistribution": {
+      "Type": "AWS::CloudFront::Distribution",
+      "Properties": {
+        "DistributionConfig" : {
+          "Origins" : [ {
+              "DomainName" : "mybucket.s3.amazonaws.com",
+              "Id" : "myS3Origin",
+              "S3OriginConfig" : {
+                  "OriginAccessIdentity" : "origin-access-identity/cloudfront/E127EXAMPLE51Z"
+              }
+          }]
+        }
+      }
     }
+
   }
 }
