@@ -6,18 +6,36 @@
         "BucketName": "mine-sweeper-site-assets"
       }
     },
-    "cloudfrontdistribution": {
+    "cloudfrontDistribution": {
+      "DependsOn" : "SiteS3Bucket",
       "Type": "AWS::CloudFront::Distribution",
       "Properties": {
         "DistributionConfig" : {
+          "DefaultCacheBehavior" : {
+            "ViewerProtocolPolicy" : "allow-all",
+            "TargetOriginId" :  {"Ref" :  "SiteS3Bucket"},
+            "ForwardedValues" : {
+              "QueryString" : false
+            }
+          } ,
           "Origins" : [ {
-              "DomainName" : "mybucket.s3.amazonaws.com",
-              "Id" : "myS3Origin",
+              "DomainName" : "mine-sweeper-site-assets.s3.amazonaws.com" ,
+              "Id" :  {"Ref" :  "SiteS3Bucket"},
               "S3OriginConfig" : {
-                  "OriginAccessIdentity" : "origin-access-identity/cloudfront/E127EXAMPLE51Z"
+                "OriginAccessIdentity" : { "Fn::Join" : [ "", ["origin-access-identity/cloudfront/", {"Ref" : "cloudfrontOriginAccessIdentity"}] ] }
+
               }
-          }]
+          }],
+          "Enabled" : true
         }
+      }
+    },
+    "cloudfrontOriginAccessIdentity" : {
+      "Type" : "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+      "Properties" : {
+        "CloudFrontOriginAccessIdentityConfig" : {
+          "Comment" : "Locking the S3 bucket"
+        }      
       }
     }
 
