@@ -11,6 +11,7 @@
       "Type": "AWS::CloudFront::Distribution",
       "Properties": {
         "DistributionConfig" : {
+          "DefaultRootObject" : "index.html",
           "DefaultCacheBehavior" : {
             "ViewerProtocolPolicy" : "allow-all",
             "TargetOriginId" :  {"Ref" :  "SiteS3Bucket"},
