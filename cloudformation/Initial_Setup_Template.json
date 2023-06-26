@@ -7,38 +7,80 @@
       }
     },
     "cloudfrontDistribution": {
-      "DependsOn" : "SiteS3Bucket",
+      "DependsOn": "SiteS3Bucket",
       "Type": "AWS::CloudFront::Distribution",
       "Properties": {
-        "DistributionConfig" : {
-          "DefaultRootObject" : "index.html",
-          "DefaultCacheBehavior" : {
-            "ViewerProtocolPolicy" : "allow-all",
-            "TargetOriginId" :  {"Ref" :  "SiteS3Bucket"},
-            "ForwardedValues" : {
-              "QueryString" : false
+        "DistributionConfig": {
+          "DefaultRootObject": "index.html",
+          "DefaultCacheBehavior": {
+            "ViewerProtocolPolicy": "allow-all",
+            "TargetOriginId": {
+              "Ref": "SiteS3Bucket"
+            },
+            "ForwardedValues": {
+              "QueryString": false
             }
-          } ,
-          "Origins" : [ {
-              "DomainName" : "mine-sweeper-site-assets.s3.amazonaws.com" ,
-              "Id" :  {"Ref" :  "SiteS3Bucket"},
+          },
+          "Origins": [
+            {
+              "DomainName": "mine-sweeper-site-assets.s3.amazonaws.com",
+              "Id": {
+                "Ref": "SiteS3Bucket"
+              },
+              "OriginAccessControlId": {
+                "Ref": "cloudforntOriginAccessControl"
+              },
               "S3OriginConfig" : {
-                "OriginAccessIdentity" : { "Fn::Join" : [ "", ["origin-access-identity/cloudfront/", {"Ref" : "cloudfrontOriginAccessIdentity"}] ] }
-
+                "OriginAccessIdentity" : ""
               }
-          }],
-          "Enabled" : true
+            }
+          ],
+          "Enabled": true
         }
       }
     },
-    "cloudfrontOriginAccessIdentity" : {
-      "Type" : "AWS::CloudFront::CloudFrontOriginAccessIdentity",
-      "Properties" : {
-        "CloudFrontOriginAccessIdentityConfig" : {
-          "Comment" : "Locking the S3 bucket"
-        }      
+    "cloudforntOriginAccessControl": {
+      "Type": "AWS::CloudFront::OriginAccessControl",
+      "Properties": {
+        "OriginAccessControlConfig": {
+          "Description": "",
+          "Name": {
+            "Fn::Join": [ "" , [ "OAC for ", "minesweeper"]]
+          },
+          "OriginAccessControlOriginType": "s3",
+          "SigningBehavior": "always",
+          "SigningProtocol": "sigv4"
+        }
+      }
+    },
+    "bucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "SiteS3Bucket"
+        },
+        "PolicyDocument": {
+          "Version": "2008-10-17",
+          "Id": "PolicyForCloudFrontPrivateContent",
+          "Statement": [
+            {
+              "Sid": "AllowCloudFrontServicePrincipal",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudfront.amazonaws.com"
+              },
+              "Action": "s3:GetObject",
+              "Resource": "arn:aws:s3:::mine-sweeper-site-assets/*",
+              "Condition": {
+                "StringEquals": {
+                  "AWS:SourceArn": {"Fn::Join": [ "" , [ "arn:aws:cloudfront::", {"Ref" : "AWS::AccountId"}, ":distribution/",{"Ref": "cloudfrontDistribution"} ]]}
+
+                }
+              }
+            }
+          ]
+        }
       }
     }
-
   }
 }
