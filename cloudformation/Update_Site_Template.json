@@ -1,0 +1,12 @@
+{
+  "Resources": {
+    "Uploader": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "Runtime": "nodejs8.10",
+        "CodeUri": "../Website/"
+      }
+    }
+  }
+}
