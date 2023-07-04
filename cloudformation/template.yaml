@@ -1,8 +1,21 @@
+Parameters:
+  BucketName:
+    Type : String
+    Description : Name for S3 bucket
+  ProjectName:
+    Type : String
+    Description : Name for project for tagging
+
+
 Resources:
   SiteS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: mine-sweeper-site-assets
+      BucketName: 
+        !Ref BucketName
+      Tags : 
+        - Key: Project
+          Value: !Ref ProjectName
   cloudfrontDistribution:
     DependsOn: SiteS3Bucket
     Type: AWS::CloudFront::Distribution
@@ -15,12 +28,19 @@ Resources:
           ForwardedValues:
             QueryString: false
         Origins:
-        - DomainName: mine-sweeper-site-assets.s3.amazonaws.com
+        - DomainName: 
+            !Join
+              - ''
+              - - !Ref BucketName
+                - '.s3.amazonaws.com'        
           Id:  !Ref SiteS3Bucket
           OriginAccessControlId:  !Ref cloudforntOriginAccessControl
           S3OriginConfig:
             OriginAccessIdentity: ''
         Enabled: true
+      Tags : 
+        - Key: Project
+          Value: !Ref ProjectName
   cloudforntOriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
     Properties:
@@ -30,7 +50,7 @@ Resources:
           !Join
             - ''
             - - 'OAC for '
-              - minesweeper
+              - !Ref SiteS3Bucket
         OriginAccessControlOriginType: s3
         SigningBehavior: always
         SigningProtocol: sigv4
@@ -47,7 +67,12 @@ Resources:
           Principal:
             Service: cloudfront.amazonaws.com
           Action: s3:GetObject
-          Resource: arn:aws:s3:::mine-sweeper-site-assets/*
+          Resource:
+            !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref BucketName
+                - '/*'
           Condition:
             StringEquals:
               AWS:SourceArn:
