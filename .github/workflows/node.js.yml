@@ -40,27 +40,11 @@ jobs:
       working-directory: Website/mine-sweeper-v2
       run: npm run build
 
-    - uses: actions/upload-artifact@master
-      with:
-        name: nodeArtifacts
-        path: Website/mine-sweeper-v2/build
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with: 
-        submodules: true
-    - uses: actions/download-artifact@master
-      with:
-        name: nodeArtifacts
-        path: buildArtifacts
     - name: CF Deploy
       working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
     
     - name: File Deploy
-      run:  aws s3 cp buildArtifacts s3://mine-sweeper-site-assets/ --recursive
+      run:  aws s3 cp Website/mine-sweeper-v2/build s3://mine-sweeper-site-assets/ --recursive
 
-  
 
