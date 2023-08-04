@@ -15,47 +15,26 @@ on:
     branches: [ "main" , "actionsTesting"]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 16.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Find location
-      run: ls
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      working-directory:  ./Website/mine-sweeper-v2
-      run: ls
-
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-
-    - name: Insall
-      working-directory:  ./Website/mine-sweeper-v2
-      run: npm ci
-
-    - name: Build
-      working-directory:  ./Website/mine-sweeper-v2
-      run: npm run build --if-present
-  deploy:
+  locationTest:
     runs-on: ubuntu-latest
     steps:
     - name: find location
-      run: |
-        - ls
-        - pwd
+      run: ls
     - name: find location 2
       working-directory:  ../
-      run: |
-        - ls
-        - pwd
+      run: ls
+    - name: find location 3
+      working-directory:  ../
+      run: pwd
+    - name: find location 4
+      working-directory:  ./Website
+      run: ls
+    - name: find location 5
+      working-directory:  ./Website
+      run: pwd
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
     - name: cf deploy
       working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
