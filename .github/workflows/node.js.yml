@@ -16,29 +16,6 @@ on:
     branches: [ "main" , "actionsTesting"]
 
 jobs:
-  locationTest:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with: 
-        submodules: true
-    - name: find location
-      run: ls
-    - name: find location2
-      working-directory:  Website
-      run: ls
-    - name: find location 5
-      working-directory:  Website
-      run: pwd
-    - name: find location 6
-      working-directory: Website/mine-sweeper-v2
-      run: ls    
-    - name: find location 7
-      working-directory: Website/mine-sweeper-v2/public
-      run: ls
-    - name: find location 8
-      working-directory: Website/mine-sweeper-v2/src
-      run: ls
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -63,11 +40,11 @@ jobs:
       working-directory: Website/mine-sweeper-v2
       run: npm run build
 
-    - name: cf deploy
+    - name: CF Deploy
       working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
     
-    - name: Deploy
+    - name: File Deploy
       run:  aws s3 cp Website/mine-sweeper-v2/build s3://mine-sweeper-site-assets/ --recursive
 
 
