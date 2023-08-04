@@ -29,7 +29,8 @@ jobs:
       run: ls
     - name: Use Node.js ${{ matrix.node-version }}
       working-directory:  ./Website/mine-sweeper-v2
-      uses: actions/setup-node@v3
+    - uses: actions/setup-node@v3
+      working-directory:  ./Website/mine-sweeper-v2
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
