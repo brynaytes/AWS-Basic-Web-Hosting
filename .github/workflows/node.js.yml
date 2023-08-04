@@ -27,18 +27,17 @@ jobs:
 
     - name: Find location
       run: ls
-    - name: change location 
-      run: cd ./Website/mine-sweeper-v2
-    - name: Find location 2
-      run: ls
     - name: Use Node.js ${{ matrix.node-version }}
+      working-directory:  ./Website/mine-sweeper-v2
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Insall
+      working-directory:  ./Website/mine-sweeper-v2
       run: npm ci
     - name: Build
+      working-directory:  ./Website/mine-sweeper-v2
       run: npm run build --if-present
   deploy:
     runs-on: ubuntu-latest
@@ -46,7 +45,8 @@ jobs:
     - name: find location
       run: ls
     - name: cf deploy
-      run: aws cloudformation deploy --template-file cloudformation\template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
+      working-directory:  ./cloudformation
+      run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
     - name: Deploy
       run:  aws s3 cp Website/mine-sweeper-v2 s3://mine-sweeper-site-assets/ --recursive
 
