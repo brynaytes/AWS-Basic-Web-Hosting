@@ -21,13 +21,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: find location
       run: ls
-    - name: find location 2
-      working-directory:  ../
-      run: ls
-    - name: find location 3
-      working-directory:  ../
-      run: pwd
-    - name: find location 4
       working-directory:  Website
       run: ls
     - name: find location 5
