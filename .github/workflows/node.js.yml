@@ -24,17 +24,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+
     - name: Find location
       run: ls
     - name: change location 
       run: cd ./Website/mine-sweeper-v2
     - name: Find location 2
       run: ls
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     - name: Insall
       run: npm ci
     - name: Build
