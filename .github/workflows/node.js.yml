@@ -39,9 +39,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: CfDeploy
-      run: aws cloudformation deploy --template-file cloudformation\template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
+    - run: aws cloudformation deploy --template-file cloudformation\template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
     - name: Deploy
-      run: ls
-      run:  aws s3 cp Website/mine-sweeper-v2 s3://mine-sweeper-site-assets/ --recursive
+    - run: ls
+    - run:  aws s3 cp Website/mine-sweeper-v2 s3://mine-sweeper-site-assets/ --recursive
 
 
