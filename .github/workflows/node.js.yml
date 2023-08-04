@@ -24,8 +24,8 @@ jobs:
 
     steps:
     - run: ls
-    - run: cd ./Website/mine-sweeper-v2
-    - run: ls
+      run: cd ./Website/mine-sweeper-v2
+      run: ls
 
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -33,16 +33,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+      run: npm ci
+      run: npm run build --if-present
   deploy:
     runs-on: ubuntu-latest
     steps:
     - name: CfDeploy
       run: ls
-
-    - run: aws cloudformation deploy --template-file cloudformation\template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
+      run: aws cloudformation deploy --template-file cloudformation\template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
     - name: Deploy
-    - run:  aws s3 cp Website/mine-sweeper-v2 s3://mine-sweeper-site-assets/ --recursive
+      run:  aws s3 cp Website/mine-sweeper-v2 s3://mine-sweeper-site-assets/ --recursive
 
 
