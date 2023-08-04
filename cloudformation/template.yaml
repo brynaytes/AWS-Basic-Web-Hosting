@@ -17,7 +17,6 @@ Resources:
         - Key: Project
           Value: !Ref ProjectName
   cloudfrontDistribution:
-    DependsOn: SiteS3Bucket
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
@@ -59,7 +58,7 @@ Resources:
     Properties:
       Bucket:  !Ref SiteS3Bucket
       PolicyDocument:
-        Version: '2008-10-17'
+        Version: '2012-10-17'
         Id: PolicyForCloudFrontPrivateContent
         Statement:
         - Sid: AllowCloudFrontServicePrincipal
