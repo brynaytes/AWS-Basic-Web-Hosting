@@ -18,6 +18,7 @@ jobs:
   locationTest:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: find location
       run: ls
     - name: find location 2
