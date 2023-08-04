@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: textbook/git-checkout-submodule-action@main
+    - uses: textbook/git-checkout-submodule-action@master
     - name: find location
       run: ls
     - name: find location2
