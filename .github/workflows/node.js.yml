@@ -28,11 +28,14 @@ jobs:
       working-directory:  Website
       run: pwd
     - name: find location 6
-      working-directory: mine-sweeper-v2
-      run: ls
+      working-directory: Website/mine-sweeper-v2
+      run: ls    
     - name: find location 7
-      working-directory: mine-sweeper-v2
-      run: pwd
+      working-directory: Website/mine-sweeper-v2/public
+      run: ls
+    - name: find location 8
+      working-directory: Website/mine-sweeper-v2/src
+      run: ls
   build:
     runs-on: ubuntu-latest
     strategy:
