@@ -48,14 +48,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: find location
-      run: 
-        ls
-        pwd
+      run: |
+        - ls
+        - pwd
     - name: find location 2
       working-directory:  ../
-      run: 
-        ls
-        pwd
+      run: |
+        - ls
+        - pwd
     - name: cf deploy
       working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
