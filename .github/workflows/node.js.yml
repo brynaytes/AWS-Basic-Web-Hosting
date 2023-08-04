@@ -49,7 +49,9 @@ jobs:
     steps:
     - name: find location
       run: ls
-
+    - name: find location 2
+      working-directory:  ../
+      run: ls
     - name: cf deploy
       working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
