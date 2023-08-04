@@ -40,6 +40,8 @@ jobs:
       working-directory: Website/mine-sweeper-v2/src
       run: ls
   build:
+    artifacts:
+      untracked: true
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -63,6 +65,8 @@ jobs:
 
 
   deploy:
+    dependencies:
+      - build 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
