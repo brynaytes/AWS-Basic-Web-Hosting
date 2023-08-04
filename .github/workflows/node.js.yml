@@ -33,3 +33,30 @@ jobs:
     - name: find location 5
       working-directory:  Website
       run: pwd
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Find location
+      run: ls
+
+    - name: location 2
+      working-directory: Website/mine-sweeper-v2
+      run: ls
+
+    - name: Insall
+      working-directory: Website/mine-sweeper-v2
+      run: npm ci
+
+    - name: Build
+      working-directory: Website/mine-sweeper-v2
+      run: npm run build --if-present
+
+
+
