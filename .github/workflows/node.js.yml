@@ -51,7 +51,7 @@ jobs:
       run: ls
 
     - name: cf deploy
-      working-directory:  ./cloudformation
+      working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
     
     - name: Deploy
