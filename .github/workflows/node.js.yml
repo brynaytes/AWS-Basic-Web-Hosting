@@ -11,9 +11,9 @@ env:
   
 on:
   push:
-    branches: [ "main" , "actionsTesting"]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" , "actionsTesting"]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -30,8 +30,6 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         node-version: 16
-        cache: 'npm'
-        cache-dependency-path: Website/mine-sweeper-v2/package-lock.json
     - name: Insall
       working-directory: Website/mine-sweeper-v2
       run: npm ci
