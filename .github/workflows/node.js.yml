@@ -40,8 +40,6 @@ jobs:
       working-directory: Website/mine-sweeper-v2/src
       run: ls
   build:
-    artifacts:
-      untracked: true
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -52,7 +50,11 @@ jobs:
     - uses: actions/checkout@v2
       with: 
         submodules: true
-
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+        cache-dependency-path: Website/mine-sweeper-v2/package-lock.json
     - name: Insall
       working-directory: Website/mine-sweeper-v2
       run: npm ci
@@ -65,8 +67,6 @@ jobs:
 
 
   deploy:
-    dependencies:
-      - build 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
