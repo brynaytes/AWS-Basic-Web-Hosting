@@ -63,16 +63,6 @@ jobs:
       working-directory: Website/mine-sweeper-v2
       run: npm run build
 
-
-
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with: 
-        submodules: true
-
     - name: cf deploy
       working-directory:  cloudformation
       run: aws cloudformation deploy --template-file template.yaml --stack-name "mine-sweeper" --parameter-overrides BucketName="mine-sweeper-site-assets" ProjectName="Mine-Sweeper"
